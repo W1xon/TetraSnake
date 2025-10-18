@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace TetraSnake
@@ -6,47 +7,49 @@ namespace TetraSnake
     internal static class DrawGame
     {
         private static Graphics graphics;
-        public static void Draw(int[,] field, PictureBox pictureBox, int size)
+        
+        private static Pen BlackPen = new Pen(Color.FromArgb(255, 0, 0, 0), 3);
+        public static void Draw(Field field, PictureBox pictureBox, int size)
         {
 
             pictureBox.Image = new Bitmap(pictureBox.Width, pictureBox.Height);
             graphics = Graphics.FromImage(pictureBox.Image);
-            for (int y = 0; y < field.GetLength(0); y++)
+            for (int y = 0; y < field.Size.Y; y++)
             {
-                for (int x = 0; x < field.GetLength(1); x++)
+                for (int x = 0; x < field.Size.X; x++)
                 {
-                    /*
-                     * 1 - ячейки тетриса
-                     * 2 - яблоко
-                     * 3 - тело змейки
-                     */
-                    if (field[y, x] == 1)
+                    if (field.GetPoint(x,y)  == CellType.Tetris)
                     {
-                        Pen blackpen = new Pen(Color.FromArgb(255, 0, 0, 0), 3);
-                        graphics.FillRectangle(Brushes.DarkMagenta, x * size, y * size, size, size);
-                        graphics.DrawRectangle(blackpen, x * size, y * size, size, size);
+                        DrawShape(x, y, size, Brushes.DarkMagenta);
                     }
-                    if (field[y, x] == 2)
+                    if (field.GetPoint(x,y) == CellType.Apple)
                     {
-                        Pen blackpen = new Pen(Color.FromArgb(255, 0, 0, 0), 3);
-                        graphics.FillRectangle(Brushes.Crimson, x * size, y * size, size, size);
-                        graphics.DrawRectangle(blackpen, x * size, y * size, size, size);
+                        DrawShape(x, y, size, Brushes.Crimson);
                     }
-                    if (field[y, x] == 3)
+                    if (field.GetPoint(x, y) == CellType.Snake)
                     {
-                        Color color = new Color();
-                        SolidBrush solidBrush;
-                        int g = LogicSnake.Snake.Count * 5 % 255;
-                        color = Color.FromArgb(255, LogicSnake.Snake.Count % 255,  (g > 255) ? 255 : g, LogicSnake.Snake.Count / 2 % 255);
-                        solidBrush = new SolidBrush(color);
+                        int len = LogicSnake.Snake.Count;
+    
+                        int green = Math.Min(255, 50 + len * 10); 
 
-                        Pen blackpen = new Pen(Color.FromArgb(255, 0, 0, 0), 3);
-                        graphics.FillRectangle(solidBrush, x * size, y * size, size, size);
-                        graphics.DrawRectangle(blackpen, x * size, y * size, size, size);
+                        Color color = Color.FromArgb(255, 0, green, 0);
+
+                        using (SolidBrush brush = new SolidBrush(color))
+                            DrawShape(x, y, size, brush);
                     }
+
                 }
             }
             pictureBox.Refresh();
+        }
+
+        private static void DrawShape(int x, int y, int size, Brush brush)
+        {
+            int px = x * size;
+            int py = y * size;
+
+            graphics.FillRectangle(brush, px, py, size, size);
+            graphics.DrawRectangle(BlackPen, px, py, size, size);
         }
     }
 }

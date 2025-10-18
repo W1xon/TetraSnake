@@ -112,90 +112,90 @@
             // labelLvl1T
             // 
             this.labelLvl1T.AutoSize = true;
-            this.labelLvl1T.Font = new System.Drawing.Font("Unispace", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLvl1T.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLvl1T.Location = new System.Drawing.Point(9, 128);
             this.labelLvl1T.Name = "labelLvl1T";
-            this.labelLvl1T.Size = new System.Drawing.Size(137, 78);
+            this.labelLvl1T.Size = new System.Drawing.Size(97, 74);
             this.labelLvl1T.TabIndex = 6;
             this.labelLvl1T.Text = "Lvl 1:\r\n0\r\n";
             // 
             // labelLvl2T
             // 
             this.labelLvl2T.AutoSize = true;
-            this.labelLvl2T.Font = new System.Drawing.Font("Unispace", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLvl2T.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLvl2T.Location = new System.Drawing.Point(9, 206);
             this.labelLvl2T.Name = "labelLvl2T";
-            this.labelLvl2T.Size = new System.Drawing.Size(137, 78);
+            this.labelLvl2T.Size = new System.Drawing.Size(99, 74);
             this.labelLvl2T.TabIndex = 7;
             this.labelLvl2T.Text = "Lvl 2:\r\n0\r\n";
             // 
             // labelLvl3T
             // 
             this.labelLvl3T.AutoSize = true;
-            this.labelLvl3T.Font = new System.Drawing.Font("Unispace", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLvl3T.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLvl3T.Location = new System.Drawing.Point(9, 284);
             this.labelLvl3T.Name = "labelLvl3T";
-            this.labelLvl3T.Size = new System.Drawing.Size(137, 78);
+            this.labelLvl3T.Size = new System.Drawing.Size(99, 74);
             this.labelLvl3T.TabIndex = 8;
             this.labelLvl3T.Text = "Lvl 3:\r\n0\r\n";
             // 
             // labelLvl3TS
             // 
             this.labelLvl3TS.AutoSize = true;
-            this.labelLvl3TS.Font = new System.Drawing.Font("Unispace", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLvl3TS.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLvl3TS.Location = new System.Drawing.Point(263, 284);
             this.labelLvl3TS.Name = "labelLvl3TS";
-            this.labelLvl3TS.Size = new System.Drawing.Size(137, 78);
+            this.labelLvl3TS.Size = new System.Drawing.Size(99, 74);
             this.labelLvl3TS.TabIndex = 11;
             this.labelLvl3TS.Text = "Lvl 3:\r\n0\r\n";
             // 
             // labelLvl2TS
             // 
             this.labelLvl2TS.AutoSize = true;
-            this.labelLvl2TS.Font = new System.Drawing.Font("Unispace", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLvl2TS.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLvl2TS.Location = new System.Drawing.Point(263, 206);
             this.labelLvl2TS.Name = "labelLvl2TS";
-            this.labelLvl2TS.Size = new System.Drawing.Size(137, 78);
+            this.labelLvl2TS.Size = new System.Drawing.Size(99, 74);
             this.labelLvl2TS.TabIndex = 10;
             this.labelLvl2TS.Text = "Lvl 2:\r\n0\r\n";
             // 
             // labelLvl1TS
             // 
             this.labelLvl1TS.AutoSize = true;
-            this.labelLvl1TS.Font = new System.Drawing.Font("Unispace", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLvl1TS.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLvl1TS.Location = new System.Drawing.Point(263, 128);
             this.labelLvl1TS.Name = "labelLvl1TS";
-            this.labelLvl1TS.Size = new System.Drawing.Size(137, 78);
+            this.labelLvl1TS.Size = new System.Drawing.Size(97, 74);
             this.labelLvl1TS.TabIndex = 9;
             this.labelLvl1TS.Text = "Lvl 1:\r\n0\r\n";
             // 
             // labelLvl3S
             // 
             this.labelLvl3S.AutoSize = true;
-            this.labelLvl3S.Font = new System.Drawing.Font("Unispace", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLvl3S.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLvl3S.Location = new System.Drawing.Point(528, 284);
             this.labelLvl3S.Name = "labelLvl3S";
-            this.labelLvl3S.Size = new System.Drawing.Size(137, 78);
+            this.labelLvl3S.Size = new System.Drawing.Size(99, 74);
             this.labelLvl3S.TabIndex = 14;
             this.labelLvl3S.Text = "Lvl 3:\r\n0\r\n";
             // 
             // labelLvl2S
             // 
             this.labelLvl2S.AutoSize = true;
-            this.labelLvl2S.Font = new System.Drawing.Font("Unispace", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLvl2S.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLvl2S.Location = new System.Drawing.Point(528, 206);
             this.labelLvl2S.Name = "labelLvl2S";
-            this.labelLvl2S.Size = new System.Drawing.Size(137, 78);
+            this.labelLvl2S.Size = new System.Drawing.Size(99, 74);
             this.labelLvl2S.TabIndex = 13;
             this.labelLvl2S.Text = "Lvl 2:\r\n0\r\n";
             // 
             // labelLvl1S
             // 
             this.labelLvl1S.AutoSize = true;
-            this.labelLvl1S.Font = new System.Drawing.Font("Unispace", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLvl1S.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLvl1S.Location = new System.Drawing.Point(528, 128);
             this.labelLvl1S.Name = "labelLvl1S";
-            this.labelLvl1S.Size = new System.Drawing.Size(137, 78);
+            this.labelLvl1S.Size = new System.Drawing.Size(97, 74);
             this.labelLvl1S.TabIndex = 12;
             this.labelLvl1S.Text = "Lvl 1:\r\n0\r\n";
             // 

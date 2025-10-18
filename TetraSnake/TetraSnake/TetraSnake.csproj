@@ -28,6 +28,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,16 +50,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>B0143EDFDAA936C11162FC4C2DBAC0F40CD54C9D</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>TetraSnake_TemporaryKey.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -75,9 +70,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Apple.cs" />
+    <Compile Include="ArrayExtensions.cs" />
+    <Compile Include="CellType.cs" />
     <Compile Include="DrawGame.cs" />
     <Compile Include="Field.cs" />
-    <Compile Include="Figure.cs" />
+    <Compile Include="Games\Game.cs" />
+    <Compile Include="Games\GameController.cs" />
+    <Compile Include="Games\Records.cs" />
+    <Compile Include="Games\Snake.cs" />
+    <Compile Include="Games\Tetris.cs" />
+    <Compile Include="Shape.cs" />
     <Compile Include="FormRecord.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,9 +98,9 @@
     <Compile Include="FormMainMenu.Designer.cs">
       <DependentUpon>FormMainMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Game.cs" />
     <Compile Include="ListOfFigure.cs" />
     <Compile Include="LogicSnake.cs" />
+    <Compile Include="Vector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BodySnake.cs" />

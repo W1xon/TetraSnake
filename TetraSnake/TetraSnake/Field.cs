@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace TetraSnake
@@ -7,39 +8,140 @@ namespace TetraSnake
     {
         public static int score;
         public static int clearLine = 0;
-        private int[,] arrayField;
-        public void Set(PictureBox pictureBox, int[,] arr = null, int scale = 0)
+        private int[,] _tileMap;
+        private Vector _size;
+
+        public Field(Size size, int[,] arr = null, int scale = 0)
         {
-            int sizeY = 0;
-            int sizeX = 0;
+            _size = new Vector();
             if (arr != null)
             {
-                arrayField = arr;
+                _size.X = arr.GetLength(1);
+                _size.Y = arr.GetLength(0);
+                _tileMap = arr;
             }
             else
             {
-                sizeY = pictureBox.Size.Height / scale;
-                sizeX = pictureBox.Size.Width / scale;
-                arrayField = new int[sizeY, sizeX];
+                _size.Y = size.Height / scale;
+                _size.X = size.Width / scale;
+                _tileMap = new int[_size.Y, _size.X];
             }
         }
-        public void Set(int[,] arr)
+        public void ChangeTileMap(Size size, int[,] arr, int scale = 0)
         {
-            arrayField = arr;
+            if (_tileMap != null && arr != null && _tileMap.SequenceEqual2D(arr))
+                return;
+
+            _size = new Vector();
+
+            if (arr != null)
+            {
+                _size.X = arr.GetLength(1);
+                _size.Y = arr.GetLength(0);
+                _tileMap = arr;
+            }
+            else
+            {
+                _size.Y = size.Height / scale;
+                _size.X = size.Width / scale;
+                _tileMap = new int[_size.Y, _size.X];
+            }
         }
-        public int[,] Get()
+
+
+        public Vector Size
         {
-            return arrayField;
+            get => _size;
         }
-        private void LowerBlocks(int[,] figure, int X, int Y, int y)
+        public void SetPoint(Vector position, CellType type)
+        {
+            if (IsOutBound(position)) return;
+            _tileMap[position.Y, position.X] = (int)type;
+        }
+
+        public void SetPoint(int x, int y, CellType type)
+        {
+            if (IsOutBoundX(x) || IsOutBoundY(y)) return;
+            _tileMap[y, x] = (int)type;
+        }
+
+
+        public CellType GetPoint(Vector position)
+        {
+            if (IsOutBound(position))
+                return CellType.Empty; 
+            return (CellType)_tileMap[position.Y, position.X];
+        }
+
+        public CellType GetPoint(int x, int y)
+        {
+            if (IsOutBoundX(x) || IsOutBoundY(y))
+                return CellType.Empty;
+            return (CellType)_tileMap[y, x];
+        }
+        public void SetArray(int[,] array, Vector position, CellType type = CellType.Tetris)
+        {
+            for (int y = 0; y < array.GetLength(0); y++)
+            {
+                for (int x = 0; x < array.GetLength(1); x++)
+                {
+                    if (array[y, x] != 0)
+                    {
+                        int fx = position.X + x;
+                        int fy = position.Y + y;
+
+                        if (fx >= 0 && fx < Size.X && fy >= 0 && fy < Size.Y)
+                        {
+                            SetPoint(fx, fy, type);
+                        }
+                    }
+                }
+            }
+        }
+
+        public bool IsOutBound(Vector position)
+        {
+            return position.X < 0
+                   || position.X >= _tileMap.GetLength(1)
+                   || position.Y < 0
+                   || position.Y >= _tileMap.GetLength(0);
+        }
+        public bool IsOutBoundX(int x)
+        {
+            return x < 0 || x >= _tileMap.GetLength(1);
+        }
+        public bool IsOutBoundY(int y)
+        {
+            return y < 0 || y >= _tileMap.GetLength(0);
+        }
+        public bool IsFreeForApple(Vector position)
+        {
+            return _tileMap[position.Y, position.X] == 1 || _tileMap[position.Y, position.X] == 3;
+        }
+        public void Clear()
+        {
+            Array.Clear(_tileMap, 0, _tileMap.Length);
+        }
+
+        public void ClearCells(Vector position, Vector size)
+        {
+            for (int y = position.Y; y < position.Y + size.Y; y++)
+            {
+                for (int x = position.X; x < position.X + size.X; x++)
+                {
+                    _tileMap[y, x] = 0;
+                }
+            }
+        }
+        private void LowerBlocks(int[,] figure, Vector position, int y)
         {
 
             bool equal = false;
             for (y--; y >= 0; y--)
             {
-                for (int x = 0; x < arrayField.GetLength(1); x++)
+                for (int x = 0; x < _tileMap.GetLength(1); x++)
                 {
-                    if (arrayField[y, x] != 1)
+                    if (_tileMap[y, x] != 1)
                         continue;
                     //проверяем координаты фигуры  чтобы они не совпадали с y,x
                     //если совпадают пропускаем итерацию и фигура не будет опускаться
@@ -50,7 +152,7 @@ namespace TetraSnake
                         {
                             if (figure[figureY, figureX] == 0)
                                 break;
-                            if ((X + figureX) == x && (Y + figureY) == y)
+                            if ((position.X + figureX) == x && (position.Y + figureY) == y)
                             {
                                 equal = true;
                                 break;
@@ -61,29 +163,29 @@ namespace TetraSnake
                     if (equal == true)
                         continue;
 
-                    if (y + 1 >= arrayField.GetLength(0))
-                        arrayField[y, x] = arrayField[y - 1, x];
+                    if (y + 1 >= _tileMap.GetLength(0))
+                        _tileMap[y, x] = _tileMap[y - 1, x];
                     else 
                     {
-                        arrayField[y + 1, x] = arrayField[y, x];
-                        arrayField[y, x] = 0;
+                        _tileMap[y + 1, x] = _tileMap[y, x];
+                        _tileMap[y, x] = 0;
                     }
                 }
             }
 
         }
-        public int CheckFullLine(int[,] figure, int X, int Y, int countclearLine = 0)
+        public int CheckFullLine(int[,] figure, Vector position, int countclearLine = 0)
         {
             bool clearLin = false;
             bool fullLine = false;
-            for (int y = arrayField.GetLength(0) - 1; y >= 0; y--)
+            for (int y = _tileMap.GetLength(0) - 1; y >= 0; y--)
             {
-                for (int x = 0; x < arrayField.GetLength(1); x++)
+                for (int x = 0; x < _tileMap.GetLength(1); x++)
                 {
                     if (fullLine)
                     {
-                        arrayField[y, x] = 0;
-                        if (x == arrayField.GetLength(1) - 1)
+                        _tileMap[y, x] = 0;
+                        if (x == _tileMap.GetLength(1) - 1)
                         {
                             fullLine = false;
                             clearLin = true;
@@ -92,9 +194,9 @@ namespace TetraSnake
                     }
                     else
                     {
-                        if (arrayField[y, x] == 0)
+                        if (_tileMap[y, x] == 0)
                             break;
-                        if (x == arrayField.GetLength(1) - 1)
+                        if (x == _tileMap.GetLength(1) - 1)
                         {
                             fullLine = true;
                             x = -1;
@@ -104,12 +206,12 @@ namespace TetraSnake
                 if (clearLin)
                 {
                     countclearLine++;
-                    LowerBlocks(figure, X, Y, y);
+                    LowerBlocks(figure, position, y);
                     clearLin = false;
-                    score += CheckFullLine(figure, X, Y, countclearLine);
+                    score += CheckFullLine(figure, position, countclearLine);
                 }
             }
-            return countclearLine * (Figure.Figures.Count) * (1000 + (countclearLine * countclearLine * 100 / 5));
+            return countclearLine * (Shape.Figures.Count) * (1000 + (countclearLine * countclearLine * 100 / 5));
         }
     }
 }

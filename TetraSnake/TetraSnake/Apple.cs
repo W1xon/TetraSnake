@@ -4,26 +4,24 @@ namespace TetraSnake
 {
     public static class Apple
     {
-        private static Random random = new Random();
-        private static int Y = 5;
-        private static int X = 0;
+        private static readonly Random _random = new Random();
+        private static Vector _position = new Vector(0,5);
 
 
         public static void Spawn(Field field)
         {
-            int[,] arrayField = field.Get();
-            arrayField[Y, X] = 0;
+            Vector size = field.Size; 
+            field.SetPoint(_position, CellType.Empty);
             do
             {
-                Y = random.Next(arrayField.GetLength(0));
-                X = random.Next(arrayField.GetLength(1));
+                _position.Y = _random.Next(size.Y);
+                _position.X = _random.Next(size.X);
             }
-            while (arrayField[Y, X] == 1 || arrayField[Y, X] == 3);
+            while (field.IsFreeForApple(_position));
         }
         public static void Draw(Field field)
         {
-            int[,] arrayField = field.Get();
-            arrayField[Y, X] = 2;
+            field.SetPoint(_position, CellType.Apple);
         }
     }
 }

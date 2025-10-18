@@ -100,20 +100,20 @@
             this.labelRecord.AutoSize = true;
             this.labelRecord.BackColor = System.Drawing.Color.White;
             this.labelRecord.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.labelRecord.Font = new System.Drawing.Font("Unispace", 16F, System.Drawing.FontStyle.Bold);
+            this.labelRecord.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold);
             this.labelRecord.Location = new System.Drawing.Point(238, 13);
             this.labelRecord.Name = "labelRecord";
-            this.labelRecord.Size = new System.Drawing.Size(106, 26);
+            this.labelRecord.Size = new System.Drawing.Size(100, 26);
             this.labelRecord.TabIndex = 11;
             this.labelRecord.Text = "Рекорд:";
             // 
             // checkBoxAddTetramino
             // 
             this.checkBoxAddTetramino.AutoSize = true;
-            this.checkBoxAddTetramino.Font = new System.Drawing.Font("Unispace", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxAddTetramino.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxAddTetramino.Location = new System.Drawing.Point(137, 330);
             this.checkBoxAddTetramino.Name = "checkBoxAddTetramino";
-            this.checkBoxAddTetramino.Size = new System.Drawing.Size(170, 27);
+            this.checkBoxAddTetramino.Size = new System.Drawing.Size(189, 28);
             this.checkBoxAddTetramino.TabIndex = 10;
             this.checkBoxAddTetramino.Text = "Доп. Тетрамино";
             this.checkBoxAddTetramino.UseVisualStyleBackColor = true;
@@ -125,10 +125,10 @@
             // checkBoxDeathTetramino
             // 
             this.checkBoxDeathTetramino.AutoSize = true;
-            this.checkBoxDeathTetramino.Font = new System.Drawing.Font("Unispace", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxDeathTetramino.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxDeathTetramino.Location = new System.Drawing.Point(137, 363);
             this.checkBoxDeathTetramino.Name = "checkBoxDeathTetramino";
-            this.checkBoxDeathTetramino.Size = new System.Drawing.Size(137, 50);
+            this.checkBoxDeathTetramino.Size = new System.Drawing.Size(165, 52);
             this.checkBoxDeathTetramino.TabIndex = 9;
             this.checkBoxDeathTetramino.Text = "Смертельные\r\n тетрамино";
             this.checkBoxDeathTetramino.UseVisualStyleBackColor = true;
@@ -140,10 +140,10 @@
             // checkBoxLevel3
             // 
             this.checkBoxLevel3.AutoSize = true;
-            this.checkBoxLevel3.Font = new System.Drawing.Font("Unispace", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxLevel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxLevel3.Location = new System.Drawing.Point(8, 396);
             this.checkBoxLevel3.Name = "checkBoxLevel3";
-            this.checkBoxLevel3.Size = new System.Drawing.Size(113, 27);
+            this.checkBoxLevel3.Size = new System.Drawing.Size(96, 28);
             this.checkBoxLevel3.TabIndex = 8;
             this.checkBoxLevel3.Text = "Level 3";
             this.checkBoxLevel3.UseVisualStyleBackColor = true;
@@ -154,10 +154,10 @@
             // checkBoxLevel2
             // 
             this.checkBoxLevel2.AutoSize = true;
-            this.checkBoxLevel2.Font = new System.Drawing.Font("Unispace", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxLevel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxLevel2.Location = new System.Drawing.Point(8, 363);
             this.checkBoxLevel2.Name = "checkBoxLevel2";
-            this.checkBoxLevel2.Size = new System.Drawing.Size(113, 27);
+            this.checkBoxLevel2.Size = new System.Drawing.Size(96, 28);
             this.checkBoxLevel2.TabIndex = 7;
             this.checkBoxLevel2.Text = "Level 2";
             this.checkBoxLevel2.UseVisualStyleBackColor = true;
@@ -168,10 +168,10 @@
             // checkBoxLevel1
             // 
             this.checkBoxLevel1.AutoSize = true;
-            this.checkBoxLevel1.Font = new System.Drawing.Font("Unispace", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxLevel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxLevel1.Location = new System.Drawing.Point(8, 330);
             this.checkBoxLevel1.Name = "checkBoxLevel1";
-            this.checkBoxLevel1.Size = new System.Drawing.Size(113, 27);
+            this.checkBoxLevel1.Size = new System.Drawing.Size(96, 28);
             this.checkBoxLevel1.TabIndex = 6;
             this.checkBoxLevel1.Text = "Level 1";
             this.checkBoxLevel1.UseVisualStyleBackColor = true;
@@ -183,7 +183,7 @@
             // 
             this.buttonExit.BackColor = System.Drawing.Color.DarkSlateGray;
             this.buttonExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonExit.Font = new System.Drawing.Font("Unispace", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonExit.Location = new System.Drawing.Point(244, 414);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(100, 40);
@@ -197,20 +197,20 @@
             // labelScore
             // 
             this.labelScore.AutoSize = true;
-            this.labelScore.Font = new System.Drawing.Font("Unispace", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelScore.Location = new System.Drawing.Point(1, 260);
             this.labelScore.Name = "labelScore";
-            this.labelScore.Size = new System.Drawing.Size(179, 50);
+            this.labelScore.Size = new System.Drawing.Size(162, 50);
             this.labelScore.TabIndex = 2;
             this.labelScore.Text = "Кол-во очков:\r\n0";
             // 
             // labelScoreLine
             // 
             this.labelScoreLine.AutoSize = true;
-            this.labelScoreLine.Font = new System.Drawing.Font("Unispace", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelScoreLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelScoreLine.Location = new System.Drawing.Point(3, 185);
             this.labelScoreLine.Name = "labelScoreLine";
-            this.labelScoreLine.Size = new System.Drawing.Size(222, 75);
+            this.labelScoreLine.Size = new System.Drawing.Size(205, 75);
             this.labelScoreLine.TabIndex = 1;
             this.labelScoreLine.Text = "Кол-во убранных \r\nлиний:\r\n0";
             // 

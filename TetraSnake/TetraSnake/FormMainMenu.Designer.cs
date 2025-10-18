@@ -51,10 +51,10 @@
             // 
             // buttonStartTetris
             // 
-            this.buttonStartTetris.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.buttonStartTetris.BackColor = System.Drawing.Color.Aquamarine;
             this.buttonStartTetris.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonStartTetris.Font = new System.Drawing.Font("Unispace", 24F, System.Drawing.FontStyle.Bold);
-            this.buttonStartTetris.Location = new System.Drawing.Point(80, 381);
+            this.buttonStartTetris.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold);
+            this.buttonStartTetris.Location = new System.Drawing.Point(214, 421);
             this.buttonStartTetris.Name = "buttonStartTetris";
             this.buttonStartTetris.Size = new System.Drawing.Size(160, 90);
             this.buttonStartTetris.TabIndex = 1;
@@ -64,10 +64,10 @@
             // 
             // buttonStartSnake
             // 
-            this.buttonStartSnake.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.buttonStartSnake.BackColor = System.Drawing.Color.Aquamarine;
             this.buttonStartSnake.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonStartSnake.Font = new System.Drawing.Font("Unispace", 24F, System.Drawing.FontStyle.Bold);
-            this.buttonStartSnake.Location = new System.Drawing.Point(680, 381);
+            this.buttonStartSnake.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold);
+            this.buttonStartSnake.Location = new System.Drawing.Point(546, 421);
             this.buttonStartSnake.Name = "buttonStartSnake";
             this.buttonStartSnake.Size = new System.Drawing.Size(160, 90);
             this.buttonStartSnake.TabIndex = 2;
@@ -77,9 +77,9 @@
             // 
             // buttonStartTetraSnake
             // 
-            this.buttonStartTetraSnake.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.buttonStartTetraSnake.BackColor = System.Drawing.Color.Aquamarine;
             this.buttonStartTetraSnake.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonStartTetraSnake.Font = new System.Drawing.Font("Unispace", 24F, System.Drawing.FontStyle.Bold);
+            this.buttonStartTetraSnake.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold);
             this.buttonStartTetraSnake.Location = new System.Drawing.Point(380, 351);
             this.buttonStartTetraSnake.Name = "buttonStartTetraSnake";
             this.buttonStartTetraSnake.Size = new System.Drawing.Size(160, 160);
@@ -90,9 +90,9 @@
             // 
             // buttonExit
             // 
-            this.buttonExit.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.buttonExit.BackColor = System.Drawing.Color.Aquamarine;
             this.buttonExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonExit.Font = new System.Drawing.Font("Unispace", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonExit.Location = new System.Drawing.Point(827, 0);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(100, 40);
@@ -103,9 +103,9 @@
             // 
             // buttonRecord
             // 
-            this.buttonRecord.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.buttonRecord.BackColor = System.Drawing.Color.Aquamarine;
             this.buttonRecord.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonRecord.Font = new System.Drawing.Font("Unispace", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRecord.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRecord.Location = new System.Drawing.Point(0, 0);
             this.buttonRecord.Name = "buttonRecord";
             this.buttonRecord.Size = new System.Drawing.Size(144, 40);

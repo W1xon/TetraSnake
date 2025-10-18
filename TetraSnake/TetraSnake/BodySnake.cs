@@ -1,39 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace TetraSnake
 {
     internal class BodySnake
     {
-        Random random = new Random();
-        public BodySnake(int X, int Y)
+        public Vector Position;
+        private readonly Random _random = new Random();
+        public BodySnake(Vector vector)
         {
-            this.X = X;
-            this.Y = Y;
+            Position = vector;
         }
         public BodySnake(Field field)
         {
-            int minValueY = 0;
-            if (Game.IsStartedTetris)
-                minValueY = 10;
-            this.X = random.Next(field.Get().GetLength(1));
-            this.Y = random.Next(minValueY, field.Get().GetLength(0));
+            int minValueY = 10;
+            Position.X = _random.Next(field.Size.X);
+            Position.Y = _random.Next(minValueY, field.Size.Y);
         }
-        public int X { get; set; }
-        public int Y { get; set; }
-        public void SetPosition(int X, int Y)
+        public void SetPosition(Vector position)
         {
-            this.X = X;
-            this.Y = Y;
-        }
-        public static bool Compare(BodySnake bodyOne, BodySnake bodyTwo)
-        {
-            if (bodyOne.X == bodyTwo.X && bodyOne.Y == bodyTwo.Y)
-                return true;
-            return false;
+            Position = position;
         }
     }
 }

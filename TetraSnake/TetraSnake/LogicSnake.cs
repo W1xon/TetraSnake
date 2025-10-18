@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TetraSnake
 {
     internal static class LogicSnake
     {
-        private static Random random = new Random();
         public static bool isDeath;
-        public static int vectorX = 0;
-        public static int vectorY = 0;
+        public static Vector Direction;
         public static List<BodySnake> Snake;
         public static bool DeathTetris;
+        private static readonly Random _random = new Random();
 
         public static void SpawnSnake(Field field)
         {
@@ -21,7 +21,7 @@ namespace TetraSnake
         }
         public static void Append()
         {
-            Snake.Add(new BodySnake(Snake[Snake.Count - 1].X, Snake[Snake.Count - 1].Y));
+            Snake.Add(new BodySnake(Snake[Snake.Count - 1].Position));
         }
         private static void Eat(Field field)
         {
@@ -29,105 +29,107 @@ namespace TetraSnake
             Apple.Spawn(field);
             Append();
         }
-        private static void EatTetramino(Figure figure, BodySnake snakeHead)
+        private static void EatTetramino(Shape shape, BodySnake snakeHead)
         {
-            for (int y = 0; y < figure.arrayFigure.GetLength(0); y++)
+            var localPos = snakeHead.Position - shape.Position;
+
+            if (localPos.Y >= 0 && localPos.Y < shape.Size.Y &&
+                localPos.X >= 0 && localPos.X < shape.Size.X &&
+                shape.IsSelf(snakeHead.Position))
             {
-                for (int x = 0; x < figure.arrayFigure.GetLength(1); x++)
-                {
-                    if (figure.X + x == snakeHead.X && figure.Y + y == snakeHead.Y)
-                    {
-                        figure.arrayFigure[y, x] = 0;
-                    }
-                }
+                shape.SetPoint(localPos, CellType.Empty);
             }
         }
-        public static void Move(Field field, Figure figure = null)
+
+
+        public static void Move(Field field, Shape shape = null)
         {
-            int[,] arrayField = field.Get();
-            //проверяем не врезаемся ли мы в 2 блок тела
-            if (Snake.Count > 1 && (Snake[0].Y + vectorY == Snake[1].Y && Snake[0].X + vectorX == Snake[1].X))
-            {
-                if (vectorX == 1)
-                {
-                    vectorY = 0;
-                    vectorX = -1;
-                }
-                else if (vectorY == 1)
-                {
-                    vectorX = 0;
-                    vectorY = -1;
-                }
-                else if (vectorX == -1)
-                {
-                    vectorY = 0;
-                    vectorX = 1;
-                }
-                else if (vectorY == -1)
-                {
-                    vectorX = 0;
-                    vectorY = 1;
-                }
-                return;
-            }
-            arrayField[Snake[0].Y, Snake[0].X] = 0;
-            if (Snake[0].X + vectorX >= arrayField.GetLength(1) || Snake[0].X + vectorX < 0)
+            if (IsCollidingWithSecondSegment()) return;
+            
+            field.SetPoint(Snake[0].Position, CellType.Empty);
+            if (field.IsOutBound(Snake[0].Position))
                 Death(field);
-            if (Snake[0].Y + vectorY >= arrayField.GetLength(0) || Snake[0].Y + vectorY < 0)
-                Death(field);
-            int[] lastLocation = { Snake[0].X, Snake[0].Y };
-            int[] lastLocationTwo = new int[2];
-            Snake[0].X += vectorX;
-            Snake[0].Y += vectorY;
+            
+            Vector lastLocation = Snake[0].Position;
+            Snake[0].Position += Direction;
 
             //проверяем задели ли мы тело змейки головой
-            for (int i = 1; i < Snake.Count; i++)
-            {
-                if (BodySnake.Compare(Snake[0], Snake[i]))
-                    Death(field);
-            }
+            if(Snake.Count(s => s.Position == Snake[0].Position) > 1)
+                Death(field);
 
-            if (arrayField[Snake[0].Y, Snake[0].X] == 2)
+            if (field.GetPoint(Snake[0].Position) == CellType.Apple)
                 Eat(field);
-            if (arrayField[Snake[0].Y, Snake[0].X] == 1)
+            if (field.GetPoint(Snake[0].Position) == CellType.Tetris)
             {
                 if (DeathTetris)
                     Death(field);
-                EatTetramino(figure, Snake[0]);
+                else
+                    EatTetramino(shape, Snake[0]);
             }
 
             for (int i = 1; i < Snake.Count; i++)
             {
-                lastLocationTwo = new int[2] { Snake[i].X, Snake[i].Y };
-                Snake[i].X = lastLocation[0];
-                Snake[i].Y = lastLocation[1];
-                Array.Copy(lastLocationTwo, lastLocation, lastLocationTwo.Length);
-                arrayField[lastLocationTwo[1], lastLocationTwo[0]] = 0;
+                var lastLocationTwo = Snake[i].Position;
+                Snake[i].Position = lastLocation;
+                lastLocation = lastLocationTwo;
+                field.SetPoint(lastLocationTwo, CellType.Empty);
             }
             Draw(field);
         }
+        private static bool IsCollidingWithSecondSegment()
+        {
+            if (Snake.Count <= 1)
+                return false;
+
+            if (Snake[0] != Snake[1])
+                return false;
+
+            // меняем направление, чтобы избежать столкновения
+            if (Direction.X == 1)
+            {
+                Direction.X = -1;
+                Direction.Y = 0;
+            }
+            else if (Direction.X == -1)
+            {
+                Direction.X = 1;
+                Direction.Y = 0;
+            }
+            else if (Direction.Y == 1)
+            {
+                Direction.Y = -1;
+                Direction.X = 0;
+            }
+            else if (Direction.Y == -1)
+            {
+                Direction.Y = 1;
+                Direction.X = 0;
+            }
+
+            return true;
+        }
+
         private static void Draw(Field field)
         {
-            int[,] arrayField = field.Get();
-            foreach (BodySnake body in Snake)
+            foreach (var body in Snake)
             {
-                arrayField[body.Y, body.X] = 3;
+                field.SetPoint(body.Position, CellType.Snake);
             }
         }
 
-        public static void Death(Field field)
+        private static void Death(Field field)
         {
             for (int i = 1; i != Snake.Count;)
                 Snake.RemoveAt(0);
             isDeath = true;
             do
             {
-                Snake[0].X = random.Next(field.Get().GetLength(1));
-                Snake[0].Y = random.Next(field.Get().GetLength(0));
+                Snake[0].Position.X = _random.Next(field.Size.X);
+                Snake[0].Position.Y = _random.Next(field.Size.Y);
 
-            } while (field.Get()[Snake[0].Y, Snake[0].X] == 1);
-            vectorX = 0;
-            vectorY = 0;
+            } while (field.GetPoint(Snake[0].Position) == CellType.Tetris);
+            Direction.X = 0;
+            Direction.Y = 0;
         }
     }
 }
