@@ -69,17 +69,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Apple.cs" />
     <Compile Include="ArrayExtensions.cs" />
     <Compile Include="CellType.cs" />
-    <Compile Include="DrawGame.cs" />
+    <Compile Include="CheckboxController.cs" />
+    <Compile Include="GameRenderer.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="Games\Game.cs" />
+    <Compile Include="Games\GameContext.cs" />
     <Compile Include="Games\GameController.cs" />
+    <Compile Include="Games\GameSettings.cs" />
+    <Compile Include="Games\GameType.cs" />
     <Compile Include="Games\Records.cs" />
-    <Compile Include="Games\Snake.cs" />
+    <Compile Include="Games\Snake\Apple.cs" />
+    <Compile Include="Games\Snake\BodySnake.cs" />
+    <Compile Include="Games\Snake\Snake.cs" />
+    <Compile Include="Games\Snake\SnakeLogic.cs" />
     <Compile Include="Games\Tetris.cs" />
-    <Compile Include="Shape.cs" />
+    <Compile Include="Tetramino.cs" />
     <Compile Include="FormRecord.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,12 +104,10 @@
     <Compile Include="FormMainMenu.Designer.cs">
       <DependentUpon>FormMainMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListOfFigure.cs" />
-    <Compile Include="LogicSnake.cs" />
+    <Compile Include="StoreTetramino.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BodySnake.cs" />
     <EmbeddedResource Include="FormRecord.resx">
       <DependentUpon>FormRecord.cs</DependentUpon>
     </EmbeddedResource>

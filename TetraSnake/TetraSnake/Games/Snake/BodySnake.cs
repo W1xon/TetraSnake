@@ -12,12 +12,11 @@ namespace TetraSnake
         public BodySnake(Field field)
         {
             int minValueY = 10;
-            Position.X = _random.Next(field.Size.X);
-            Position.Y = _random.Next(minValueY, field.Size.Y);
-        }
-        public void SetPosition(Vector position)
-        {
-            Position = position;
+
+            int x = _random.Next(field.Size.X);
+            int y = _random.Next(minValueY, field.Size.Y);
+
+            Position = new Vector(x, y);
         }
     }
 }

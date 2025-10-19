@@ -5,28 +5,23 @@ namespace TetraSnake
 {
     public partial class FormMainMenu : Form
     {
-        public static FormTetraSnake formTetraSnake;
-        private readonly GameController _gameController = new GameController();
         public FormMainMenu()
         {
             InitializeComponent();
         }
         private void buttonStartTetraSnake_Click(object sender, EventArgs e)
         {
-            _gameController.StartTetraSnakeGame();
-            ShowTetraSnakeWindow();
+            ShowTetraSnakeWindow(GameType.TetraSnake);
         }
 
         private void buttonStartTetris_Click(object sender, EventArgs e)
         {
-            _gameController.StartTetrisGame();
-            ShowTetraSnakeWindow();
+            ShowTetraSnakeWindow(GameType.Tetris);
         }
 
         private void buttonStartSnake_Click(object sender, EventArgs e)
         {
-            _gameController.StartSnakeGame();
-            ShowTetraSnakeWindow();
+            ShowTetraSnakeWindow(GameType.Snake);
         }
 
         private void buttonExit_Click(object sender, EventArgs e)
@@ -40,12 +35,11 @@ namespace TetraSnake
             frmRecord.ShowDialog();
         }
 
-        private void ShowTetraSnakeWindow()
+        private void ShowTetraSnakeWindow(GameType type)
         {
-            formTetraSnake = new FormTetraSnake();
-            formTetraSnake.SetGameController(_gameController);
+            var formTetraSnake = new FormTetraSnake(type);
             formTetraSnake.Show();
-            this.Hide();
+            Hide();
         }
     }
 }

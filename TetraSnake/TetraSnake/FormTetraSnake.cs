@@ -5,161 +5,112 @@ namespace TetraSnake
 {
     public partial class FormTetraSnake : Form
     {
-        public static int Record;
-        private GameController _gameController;
-        private string _nameForm;
+        private readonly GameController _gameController;
+        private readonly CheckboxController _checkboxController;
+        private readonly GameType _gameType;
 
-        public FormTetraSnake()
-        {
-            InitializeComponent();
-        }
+        public FormTetraSnake() => InitializeComponent();
 
-        public void SetGameController(GameController controller)
+        public FormTetraSnake(GameType type) : this()
         {
-            _gameController = controller;
-            _gameController.InitTimer(timer, timerSnake);
-            _gameController.InitPictureBox(pictureBoxFigures, pictureBoxGameTetraSnake);
+            _gameType = type;
+            _checkboxController = new CheckboxController();
+            _checkboxController.InitializeCheckboxes(checkBoxLevel1, checkBoxLevel2, checkBoxLevel3);
+
+            _gameController = new GameController(timer, timerSnake, pictureBoxFigures, pictureBoxGameTetraSnake, _checkboxController);
+            _gameController.CloseFormAction += ExitForm;
+
             Start();
         }
 
         private void Start()
         {
-            Records.CheckBoxArraySet(checkBoxLevel1, checkBoxLevel2, checkBoxLevel3);
-            _gameController.InitLevel();
+            _gameController.StartGame(_gameType);
             timerScore.Interval = 1;
             timerScore.Start();
 
-            _gameController.GameField = new Field(pictureBoxGameTetraSnake.Size, scale: 20);
-            _gameController.ShapePreview = new Field(pictureBoxFigures.Size, Shape.Figures[0]);
-            _gameController.Shape = new Shape(Shape.Figures[0], _gameController.GameField);
-            _gameController.Shape.OnSpawnBlocked += _gameController.TetrisGame.Reset;
-
-            Record = Records.DataRecordGet(_gameController);
-
-            if (_gameController.SnakeGame.IsStarted && _gameController.TetrisGame.IsStarted)
+            if (_gameType == GameType.TetraSnake)
             {
-                Text = _nameForm = "TetraSnake";
-                LogicSnake.DeathTetris = _gameController.EnableDeadlyTetramino;
+                Text = "TetraSnake";
                 checkBoxDeathTetramino.Visible = true;
-                checkBoxDeathTetramino.Checked = LogicSnake.DeathTetris;
+                checkBoxDeathTetramino.Checked = _gameController.IsDeadlyTetramino;
             }
 
-            if (_gameController.SnakeGame.IsStarted)
+            if (_gameType == GameType.Snake || _gameType == GameType.TetraSnake)
             {
-                LogicSnake.SpawnSnake(_gameController.GameField);
-                Text = _nameForm = "Snake";
+                _gameController.SnakeGame.Spawn(_gameController.GameField);
+                if (_gameType == GameType.Snake) Text = "Snake";
                 timerSnake.Interval = _gameController.SnakeGame.TimeUpdate;
                 timerSnake.Start();
             }
 
-            if (_gameController.TetrisGame.IsStarted)
+            if (_gameType == GameType.Tetris || _gameType == GameType.TetraSnake)
             {
-                Text = _nameForm = "Tetris";
-                timer.Interval = _gameController.TetrisGame.TimeUpdate;
-                timer.Start();
-
-                if (_gameController.UseExtraTetramino)
-                    Shape.Figures = ListOfFigure.MultitudeFigures;
-
+                if (_gameType == GameType.Tetris) Text = "Tetris";
                 checkBoxAddTetramino.Visible = true;
                 checkBoxAddTetramino.Checked = _gameController.UseExtraTetramino;
+                if (_gameController.UseExtraTetramino)
+                    _gameController.TetrisGame.Tetraminos = StoreTetramino.MultitudeFigures;
+                timer.Interval = _gameController.TetrisGame.TimeUpdate;
+                timer.Start();
             }
         }
 
-        #region Игровые таймеры
         private void TimerSnake_Tick(object sender, EventArgs e)
         {
             _gameController.SnakeGame.Update();
-            DrawGame.Draw(_gameController.GameField, pictureBoxGameTetraSnake,
-                pictureBoxGameTetraSnake.Height / _gameController.GameField.Size.Y);
+            _gameController.RenderGame();
         }
 
-        private void timer_Tick(object sender, EventArgs e)
-        {
+        private void timer_Tick(object sender, EventArgs e) =>
             _gameController.TetrisGame.Update();
-        }
 
         private void timerScore_Tick(object sender, EventArgs e)
         {
-            if (Record < Field.score)
-                Record = Field.score;
-
-            Text = $"{_nameForm}     Рекорд: {Record}";
-            labelRecord.Text = "Рекорд:\n" + Record;
-            labelScore.Text = $"Кол-во очков: \n{Field.score}";
-            labelScoreLine.Text = $"Кол-во \nубранных линий: \n{Field.clearLine}";
+            if (_gameController.TryUpdateRecord())
+            {
+                Text = $"Рекорд: {_gameController.Record}";
+                labelRecord.Text = $"Рекорд:\n{_gameController.Record}";
+            }
+            labelScore.Text = $"Очки:\n{_gameController.Score}";
+            labelScoreLine.Text = $"Убранные линии:\n{_gameController.ClearLine}";
         }
-        #endregion
 
-        #region Управление клавишами
         private void splitContainer1_KeyDown(object sender, KeyEventArgs e)
         {
-            switch (e.KeyCode)
-            {
-                case Keys.Down:
-                    timer.Interval = _gameController.TetrisGame.timeUpdateDown;
-                    break;
-                case Keys.Z:
-                    LogicSnake.Append();
-                    break;
-            }
+            if (e.KeyCode == Keys.Down)
+                timer.Interval = _gameController.TetrisGame.TimeUpdateDown;
         }
 
         private void splitContainer1_KeyUp(object sender, KeyEventArgs e)
         {
-            if (_gameController.Shape.pressButton == true)
+            if (_gameController.Tetramino.IsControlEnabled)
             {
-                // управление тетрисом
                 switch (e.KeyCode)
                 {
-                    case Keys.Left: _gameController.Shape.VectorX = -1; break;
-                    case Keys.Right: _gameController.Shape.VectorX = 1; break;
+                    case Keys.Left: _gameController.InvokeTetrisKey(Keys.Left); break;
+                    case Keys.Right: _gameController.InvokeTetrisKey(Keys.Right); break;
+                    case Keys.Up: _gameController.InvokeTetrisKey(Keys.Up); break;
                     case Keys.Down: timer.Interval = _gameController.TetrisGame.TimeUpdate; break;
-                    case Keys.Up: _gameController.Shape.CanRotate = true; break;
                 }
+            }
 
-                // управление змейкой
-                switch (e.KeyCode)
-                {
-                    case Keys.W:
-                        if (LogicSnake.Direction.Y != 1) { LogicSnake.Direction.X = 0; LogicSnake.Direction.Y = -1; }
-                        break;
-                    case Keys.S:
-                        if (LogicSnake.Direction.Y != -1) { LogicSnake.Direction.X = 0; LogicSnake.Direction.Y = 1; }
-                        break;
-                    case Keys.A:
-                        if (LogicSnake.Direction.X != 1) { LogicSnake.Direction.X = -1; LogicSnake.Direction.Y = 0; }
-                        break;
-                    case Keys.D:
-                        if (LogicSnake.Direction.X != -1) { LogicSnake.Direction.X = 1; LogicSnake.Direction.Y = 0; }
-                        break;
-                }
+            switch (e.KeyCode)
+            {
+                case Keys.W: _gameController.InvokeSnakeKey(Keys.W); break;
+                case Keys.S: _gameController.InvokeSnakeKey(Keys.S); break;
+                case Keys.A: _gameController.InvokeSnakeKey(Keys.A); break;
+                case Keys.D: _gameController.InvokeSnakeKey(Keys.D); break;
             }
         }
-        #endregion
 
-        #region UI / Чекбоксы и кнопки
-        private void ChangeCheckBox(CheckBox checkBox, int index)
+        private void ChangeCheckBox(CheckBox _, int index)
         {
-            int indexTrue = 0;
-            for (int i = 0; i < Records.ArrayCheckBoxLevel.Length; i++)
-            {
-                if (Records.ArrayCheckBoxLevel[i].Checked && (i != index))
-                    indexTrue = i;
-                Records.ArrayCheckBoxLevel[i].Checked = false;
-            }
-
-            Records.ArrayCheckBoxLevel[indexTrue].Checked = true;
-
-            _gameController.DataReset();
-            Records.ArrayCheckBoxLevel[indexTrue].Checked = false;
-
-            checkBox.Checked = true;
+            RemoveFocus();
+            _gameController.ResetGameState();
+            _checkboxController.SelectCheckbox(index);
             _gameController.SetLevelParameters(index + 1);
             StartTimer();
-            Record = Records.DataRecordGet(_gameController);
-
-            RemoveFocusFromButton(buttonExit);
         }
 
         private void checkBoxLevel1_Click(object sender, EventArgs e) => ChangeCheckBox(checkBoxLevel1, 0);
@@ -168,31 +119,23 @@ namespace TetraSnake
 
         private void checkBoxDeathTetramino_Click(object sender, EventArgs e)
         {
-            _gameController.EnableDeadlyTetramino = checkBoxDeathTetramino.Checked;
-            LogicSnake.DeathTetris = checkBoxDeathTetramino.Checked;
-            _gameController.DataReset();
+            _gameController.EnableDeadlyTetramino(checkBoxDeathTetramino.Checked);
+            _gameController.ResetGameState();
             StartTimer();
-            RemoveFocusFromButton(buttonExit);
+            RemoveFocus();
         }
 
         private void checkBoxAddTetramino_CheckedChanged(object sender, EventArgs e)
         {
-            RemoveFocusFromButton(buttonExit);
-            splitContainer1.Focus();
-
+            RemoveFocus();
             _gameController.UseExtraTetramino = checkBoxAddTetramino.Checked;
-            Shape.Figures = _gameController.UseExtraTetramino
-                ? ListOfFigure.MultitudeFigures
-                : ListOfFigure.Tetramino;
+            _gameController.TetrisGame.Tetraminos = _gameController.UseExtraTetramino
+                ? StoreTetramino.MultitudeFigures
+                : StoreTetramino.Tetramino;
         }
 
-        private void buttonExit_Click(object sender, EventArgs e)
-        {
-            ExitForm(ActiveForm);
-        }
-        #endregion
+        private void buttonExit_Click(object sender, EventArgs e) => ExitForm();
 
-        #region Вспомогательные методы
         private void StartTimer()
         {
             timer.Interval = _gameController.TetrisGame.TimeUpdate;
@@ -201,24 +144,20 @@ namespace TetraSnake
             if (_gameController.TetrisGame.IsStarted) timer.Start();
         }
 
-        private void RemoveFocusFromButton(Control button)
+        private void RemoveFocus()
         {
-            button.TabStop = false;
+            buttonExit.TabStop = false;
             ActiveForm.ActiveControl = null;
         }
 
-        public void ExitForm(Form frmTS)
+        private void ExitForm()
         {
             timerScore.Stop();
-            _gameController.DataReset();
-            Record = 0;
+            _gameController.ResetGameState();
             _gameController.SnakeGame.IsStarted = false;
             _gameController.TetrisGame.IsStarted = false;
-
-            FormMainMenu frmMM = new FormMainMenu();
-            frmMM.Show();
-            frmTS.Close();
+            new FormMainMenu().Show();
+            Close();
         }
-        #endregion
     }
 }

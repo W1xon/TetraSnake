@@ -1,62 +1,53 @@
-﻿namespace TetraSnake
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
+namespace TetraSnake
 {
     public class Tetris : Game
     {
-        public  int BlockSizeFutureFigure = 25;
-        public  int timeUpdateDown = 50;
+        public int TimeUpdateDown = 50;
+        private int _nextFigureIndex;
+        public List<int[,]> Tetraminos = StoreTetramino.Tetramino;
+        private readonly Random _random = new Random();
 
         public Tetris(GameController controller) : base(controller)
         {
+            _gameController.TetrisKeyPressed += key =>
+            {
+                if (key == Keys.Left) _gameController.Tetramino.HorizontalDirection = -1;
+                else if (key == Keys.Right) _gameController.Tetramino.HorizontalDirection = 1;
+                else if (key == Keys.Up) _gameController.Tetramino.CanRotate = true;
+            };
         }
 
+        public override void Update()
+        {
+            int index = _nextFigureIndex >= Tetraminos.Count ? Tetraminos.Count - 1 : _nextFigureIndex;
+            _gameController.ShapePreview.UpdateTileMap(_gameController.PBoxGame.Size, Tetraminos[index]);
+            _gameController.RenderPreview();
+            _gameController.Tetramino.Move(_gameController.GameField);
+            if (!_gameController.SnakeGame.IsStarted)
+                _gameController.RenderGame();
+        }
 
         public void SetLevelParameters(int lvl = 1)
         {
             Level = lvl;
-            switch (Level)
+            if (GameSettings.TetrisUpdateTime.TryGetValue(Level, out var times))
             {
-                case 1:
-                    TimeUpdate = 400;
-                    timeUpdateDown = 50;
-                    break;
-
-                case 2:
-                    TimeUpdate = 200;
-                    timeUpdateDown = 30;
-                    break;
-                case 3:
-                    TimeUpdate = 100;
-                    timeUpdateDown = 10;
-                    
-                    break;
+                TimeUpdate = times.TimeUpdate;
+                TimeUpdateDown = times.TimeUpdateDown;
             }
         }
 
-        public void Update()
+        public int[,] GetNextTetraminoMatrix()
         {
-            _gameController.ShapePreview.ChangeTileMap(_gameController.PBoxGame.Size,
-                Shape.Figures[_gameController.Shape.NextFigureIndex >= Shape.Figures.Count ? Shape.Figures.Count -1 : _gameController.Shape.NextFigureIndex]);
-            DrawGame.Draw(_gameController.ShapePreview, _gameController.PBoxPreview, BlockSizeFutureFigure);
-            
-            _gameController.Shape.Move(_gameController.GameField);
-            
-            if(!_gameController.SnakeGame.IsStarted)
-                DrawGame.Draw(_gameController.GameField, _gameController.PBoxGame, _gameController.PBoxGame.Height / _gameController.GameField.Size.Y);
-        }
-        public  void DataReset()
-        {
-            _gameController.SaveLevel();
-            Records.SaveRecord(_gameController);
-            Field.score = 0;
-            Field.clearLine = 0;
-            _gameController.GameField.Clear();
-            _gameController.Shape.Spawn(_gameController.GameField);
-        }
-        public void Reset(bool showingMenu = true)
-        {
-            DataReset();
-            if(showingMenu)
-                _gameController.ShowMenuRestart();
+            int index = _nextFigureIndex >= Tetraminos.Count ? Tetraminos.Count - 1 : _nextFigureIndex;
+            var matrix = new int[Tetraminos[index].GetLength(0), Tetraminos[index].GetLength(1)];
+            Array.Copy(Tetraminos[index], matrix, Tetraminos[index].Length);
+            _nextFigureIndex = _random.Next(Tetraminos.Count);
+            return matrix;
         }
     }
 }
